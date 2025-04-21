@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+
+
+{% block PageContent %}
+
+<!-- Page Content-->
+
+
+{% for skill in skills %}
+
+<nav style="width: 100%;" class="px-3 mt-4 d-flex flex-wrap justify-content-between fw-bold fs-5"
+  aria-label="breadcrumb ">
+  <ol class="breadcrumb ">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ skill[1] }} {{ skill[2] }} </li>
+  </ol>
+
+  <p class="me-md-3"><span class="fw-medium"> ID :</span> {{ skill[0] }}</p>
+</nav>
+
+<hr>
+
+<img src="{{ url_for('static', filename=skill[10]) }}" alt="" width="200" height="200" class="img ms-3"
+  style="border-radius: 15px;">
+
+<hr>
+
+<div style="width: 100%;" class="px-3 mt-4 ">
+
+  <table class="table mt-5 table-striped table-bordered text-start fw-bold">
+
+
+    <tbody class="text-start">
+
+      <tr>
+
+        <td class="fw-bold">First Name :</td>
+        <td>{{ skill[1] }}</td>
+      </tr>
+
+      <tr>
+
+        <td class="fw-bold">Last Name :</td>
+        <td>{{ skill[2] }}</td>
+      </tr>
+
+      <tr>
+
+        <td class="fw-bold">Telephone :</td>
+        <td>{{ skill[3] }}</td>
+      </tr>
+
+      <tr>
+
+        <td class="fw-bold">Email :</td>
+        <td>{{ skill[4] }}</td>
+      </tr>
+
+      <tr>
+
+        <td class="fw-bold">Gender :</td>
+        <td>{{ skill[5] }}</td>
+      </tr>
+
+      <tr>
+
+        <td class="fw-bold">Age :</td>
+        <td>{{ skill[6] }}</td>
+      </tr>
+
+      <tr>
+        <td class="fw-bold">Country :</td>
+        <td>{{ skill[7] }}</td>
+      </tr>
+
+      <tr>
+        <td class="fw-bold">Created on :</td>
+        <td>{{ skill[8] }}</td>
+      </tr>
+
+
+      <tr>
+        <td class="fw-bold">Last Update :</td>
+        <td>{{ skill[9] }}</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+</div>
+
+
+{%endfor%}
+
+
+
+{% endblock %}

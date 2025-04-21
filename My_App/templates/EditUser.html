@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+
+{% block PageContent %}
+
+
+<!-- Page Content-->
+{% for skill in skills %}
+
+<nav class="px-2 mt-4 d-flex flex-wrap justify-content-between fw-bold fs-5" aria-label="breadcrumb ">
+  <ol class="breadcrumb ">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ skill[1] }} {{ skill[2] }}</li>
+  </ol>
+
+  <p class="me-md-3 IDClass "><span class="fw-medium "> ID :</span> {{ skill[0] }} </p>
+</nav>
+
+<hr>
+
+<form class="row gx-3  mx-0 text-left mt-2">
+
+  <!-- ************************************   Col 1 *********************************** -->
+
+  <!-- First Name-->
+  <div class=" col-md-6  ">
+    <div class="mb-2 mt-4">
+      <label for="formGroupExampleInput" class="form-label">First Name :</label>
+      <input type="text" class="form-control FirstNameClass" id="formGroupExampleInput" placeholder="First Name"
+        value="{{ skill[1] }}">
+      <label class="form-label FirstName_errorlabel" style="color:red; display: none; ">You must enter First Name
+        ?</label>
+    </div>
+  </div>
+
+  <!-- Last Name-->
+  <div class=" col-md-6  ">
+
+    <div class="mb-2 mt-4">
+      <label for="formGroupExampleInput" class="form-label">Last Name :</label>
+      <input type="text" class="form-control LastNameClass" id="formGroupExampleInput" placeholder="Last Name"
+        value="{{ skill[2] }}">
+      <label class="form-label LastName_errorlabel" style="color:red; display: none; ">You must enter Last Name
+        ?</label>
+    </div>
+  </div>
+
+  <!-- Email-->
+  <div class=" col-md-6  ">
+    <div class="mb-2 mt-4">
+      <label for="exampleFormControlInput1" class="form-label">Email address :</label>
+      <input type="email" class="form-control EmailClass" id="exampleFormControlInput1" placeholder="name@example.com"
+        value="{{ skill[4] }}">
+      <label class="form-label Email_errorlabel" style="color:red; display: none; ">You must enter Email ?</label>
+    </div>
+  </div>
+
+  <!-- Telephone-->
+  <div class="col-md-6  ">
+
+    <div class="mb-2 mt-4">
+      <label for="formGroupExampleInput" class="form-label">Telephone :</label>
+      <input type="text" class="form-control TelephoneClass" id="formGroupExampleInput" placeholder="Telephone"
+        value="{{ skill[3] }}"  maxlength="11">
+      <label class="form-label Telephone_errorlabel" style="color:red; display: none; ">You must enter Telephone
+        ?</label>
+    </div>
+
+  </div>
+
+  <!-- Age-->
+
+  <div class="col-md-6  ">
+    <div class="mb-2 mt-4">
+      <label for="formGroupExampleInput" class="form-label">Age :</label>
+      <input type="number" class="form-control AgeClass" id="formGroupExampleInput" placeholder="Your Age...."
+        value="{{ skill[6] }}">
+      <label class="form-label Age_errorlabel" style="color:red; display: none; ">You must enter Age ?</label>
+      <label class="form-label Age_errorlabel_01" style="color:red; display: none; ">You must enter Age between
+        (5-105) years ?</label>
+    </div>
+  </div>
+
+
+  <!-- Country-->
+
+  <div class="col-md-6  ">
+    <div class="mb-2 mt-4">
+      <label for="formGroupExampleInput" class="form-label">Country :</label>
+      <select id="formGroupExampleInput" class="form-select CountryClass">
+        <option selected hidden disabled>Choose Country here .......</option>
+
+        {% for Country in Countries %}
+        <option value="{{ Country[1] }}" {% if Country[1]==skill[7] %} selected {% endif %}>{{ Country[1] }}</option>
+        {%endfor%}
+
+
+      </select>
+    </div>
+  </div>
+
+
+  <!-- Gender-->
+  <div>
+    <div class=" col-md-6  ">
+      <div class="mb-2 mt-4">
+
+        <label for="formGroupExampleInput" class="form-label">Gender :</label>
+        <select id="formGroupExampleInput" class="form-select GenderClass">
+          <option selected hidden disabled>Choose here.....</option>
+          <option value="Male" {% if skill[5].strip()=="Male" %} selected {% endif %}>Male</option>
+          <option value="Female" {% if skill[5].strip()=="Female" %} selected {% endif %}>Female</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- pic   -->
+  <div>
+    <div class=" col-md-6  p-0">
+      <div class="mb-2 ms-1  ">
+        <button type="button" class="btn btn-info p-0" onclick="Remove_Pic_Fun()"
+          style="width: 193px; font-size: 12px;">Remove Picture</button>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="col-md-6  card imgholder p-0">
+
+      <label for="imgInput" class="upload">
+        <input type="file" name="file" id="imgInput" accept="image/*" required>
+        <i class="bi bi-plus-circle-dotted"></i>
+      </label>
+      <img src="{{ url_for('static', filename=skill[10]) }}" alt="" width="200" height="200" class="img pic_for_emp"
+        data-picPath="{{ skill[10] }}">
+
+    </div>
+  </div>
+
+
+  <!-- update Change-->
+
+  <div class="col-6">
+    <div class="mb-3 mt-4">
+      <button type="button" class="btn btn-primary me-3" onclick="Updata_Fun()">Update User Data</button>
+
+      <button type="button" id="DeleteViewBut01" class="btn btn-danger Delete_Item" data-bs-placement="top"
+        data-bs-title="Delete User" data-bs-toggle="modal" data-bs-target="#exampleModal_01"
+        data-class-value_01="{{ skill[0] }}">
+        Delete User
+      </button>
+    </div>
+  </div>
+
+
+
+  {%endfor%}
+
+</form>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal_01" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete User</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the user ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" onclick="delete_Fun()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+
+  const fileInput = document.getElementById("imgInput");
+
+  fileInput.addEventListener("change", function () {
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+
+      const image_V = document.querySelector(".img");
+      image_V.removeAttribute("Remove_Index");
+      
+
+      reader.onload = function (e) {
+        const imgElement = document.querySelector(".img");
+        imgElement.removeAttribute("src");
+        imgElement.src = e.target.result; //   Set the image source to the base64-encoded data URL
+
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  });
+
+  function Remove_Pic_Fun() {
+
+    const image_V = document.querySelector(".img");
+    image_V.removeAttribute("src");
+    image_V.src = "{{ url_for('static', filename='images/ProfileIcon.webp') }}";
+    image_V.setAttribute("data-picPath","images/ProfileIcon.webp")
+  }
+</script>
+
+
+
+{% endblock %}

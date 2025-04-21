@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+
+{% block PageContent %}
+
+
+<!-- Page Content-->
+
+<form class="row gx-3    mx-0 text-left mt-2" id="My_Form">
+
+
+  <!-- ************************************   Col 1 *********************************** -->
+
+
+  <!-- First Name-->
+  <div class=" col-md-6  ">
+    <div class="mb-3 mt-4">
+      <label for="formGroupExampleInput" class="form-label">First Name :</label>
+      <input type="text" class="form-control FirstNameClass" id="formGroupExampleInput" placeholder="First Name">
+      <label class="form-label FirstName_errorlabel" style="color:red; display: none; ">You must enter First Name
+        ?</label>
+    </div>
+  </div>
+
+  <!-- Last Name-->
+  <div class=" col-md-6  ">
+
+    <div class="mb-3 mt-4">
+      <label for="formGroupExampleInput" class="form-label">Last Name :</label>
+      <input type="text" class="form-control LastNameClass" id="formGroupExampleInput" placeholder="Last Name">
+      <label class="form-label LastName_errorlabel" style="color:red; display: none; ">You must enter Last Name
+        ?</label>
+    </div>
+  </div>
+
+  <!-- Email-->
+  <div class=" col-md-6  ">
+    <div class="mb-3 mt-4">
+      <label for="exampleFormControlInput1" class="form-label">Email address :</label>
+      <input type="email" class="form-control EmailClass" id="exampleFormControlInput1" placeholder="name@example.com">
+      <label class="form-label Email_errorlabel" style="color:red; display: none; ">You must enter Email ?</label>
+    </div>
+  </div>
+
+  <!-- Telephone-->
+  <div class=" col-md-6  ">
+
+    <div class="mb-3 mt-4">
+      <label for="formGroupExampleInput" class="form-label">Telephone :</label>
+      <input type="text" class="form-control TelephoneClass" id="formGroupExampleInput" placeholder="Telephone" maxlength="11">
+      <label class="form-label Telephone_errorlabel" style="color:red; display: none; ">You must enter Telephone
+        ?</label>
+    </div>
+
+  </div>
+
+  <!-- Age-->
+  <div>
+    <div class=" col-md-6  ">
+      <div class="mb-3 mt-4">
+        <label for="formGroupExampleInput" class="form-label">Age :</label>
+        <input type="number" class="form-control AgeClass" id="formGroupExampleInput" placeholder="Your Age....">
+        <label class="form-label Age_errorlabel" style="color:red; display: none; ">You must enter Age ?</label>
+        <label class="form-label Age_errorlabel_01" style="color:red; display: none; ">You must enter Age between
+          (5-105) years ?</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Country-->
+  <div>
+    <div class=" col-md-6  ">
+      <div class="mb-3 mt-4">
+        <label for="formGroupExampleInput" class="form-label">Country :</label>
+        <select id="formGroupExampleInput" class="form-select CountryClass">
+          <option selected hidden disabled>Choose Country here .......</option>
+          {% for Country in Countries %}
+          <option value="{{ Country[1] }}">{{ Country[1] }}</option>
+          {%endfor%}
+        </select>
+        <label class="form-label Country_errorlabel" style="color:red; display: none; ">You must Choose Country
+          ?</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gender-->
+  <div>
+    <div class=" col-md-6  ">
+      <div class="mb-3 mt-4">
+
+        <label for="formGroupExampleInput" class="form-label">Gender :</label>
+        <select id="formGroupExampleInput" class="form-select GenderClass">
+          <option selected hidden disabled>Choose here.....</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+        <label class="form-label Gender_errorlabel" style="color:red; display: none; ">You must Choose Gender ?</label>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+   <!-- <form id="imageForm" action="" method="POST" enctype="multipart/form-data"> -->
+
+  <div class="card imgholder p-0">
+
+    <!-- <button type="button" class="btn btn-success" onclick="submitForm('imageForm')">Upload</button> -->
+
+    <label for="imgInput" class="upload">
+      <input type="file" name="file" id="imgInput" accept="image/*" required >
+      <i class="bi bi-plus-circle-dotted"></i>
+    </label>
+    <img src="{{ url_for('static', filename='images/ProfileIcon.webp') }}" alt="" width="200" height="200" class="img">
+
+  </div>
+<!-- </form> -->
+
+
+  <!-- submit-->
+  <div>
+    <div class=" col-12  ">
+      <div class="mb-3 mt-4">
+        <button type="button" class="btn btn-primary" onclick="Add_Fun()">Add New</button>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+
+<script>
+
+
+    const fileInput = document.getElementById("imgInput");
+    
+    fileInput.addEventListener("change", function () {
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        
+
+        reader.onload = function (e) {
+          const imgElement = document.querySelector(".img");
+           imgElement.removeAttribute("src");
+           imgElement.src = e.target.result ; //   Set the image source to the base64-encoded data URL
+           
+        };
+        reader.readAsDataURL(file); // Read the file as a data URL
+      }
+    });
+
+  
+</script>
+
+
+{% endblock %}

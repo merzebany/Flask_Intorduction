@@ -1,0 +1,5 @@
+{
+  "appService.showBuildDuringDeployPrompt": false,
+  "appService.defaultWebAppToDeploy": "/subscriptions/40492957-c1c4-4789-9903-d34448cd6e5f/resourceGroups/EmpAppPython_group/providers/Microsoft.Web/sites/EmpAppPython",
+  "appService.deploySubpath": "."
+}

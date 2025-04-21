@@ -1,0 +1,51 @@
+.bi-lightning-charge::before {
+  margin-right: 1rem;
+  font-size: 1.9rem;
+}
+
+/* SIDEBAR */
+
+.sideBar_01 {
+  width: 280px;
+}
+
+.small-sidebar {
+  width: 88px;
+}
+
+.small-sidebar .sideBar-text {
+  display: none;
+  
+}
+  
+/* ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff */
+ .imgholder{
+  width: 200px;
+  height: 200px;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  
+}
+
+.imgholder .upload{
+  position: absolute;
+  bottom: 0;
+  left: 10;
+  width: 100%;
+  height: 100px;
+  background: rgba(0,0,0,0.3);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+
+.imgholder:hover .upload{
+  display: flex;
+}
+
+.imgholder .upload input{
+  display: none;
+}

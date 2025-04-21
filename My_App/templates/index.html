@@ -1,0 +1,834 @@
+{% extends "base.html" %}
+
+
+
+
+{% block Searchheader %}
+
+
+<style>
+  .img {
+
+    transition: transform 0.5s ease;
+  }
+
+  .img:hover {
+    transform: scale(5)
+  }
+</style>
+
+
+<form class="d-flex" role="search">
+  <input class="form-control me-2 Search_But" type="search" placeholder="Search" aria-label="Search">
+  <button class="btn btn-outline-success" id="SearchBut" type="button" onclick="Search_Fun()">Search</button>
+</form>
+
+{% endblock %}
+
+
+
+{% block PageContent %}
+
+
+
+<p class="d-inline-flex gap-1 mt-2 ms-3">
+
+  <button onclick="ColSelectBut()" Id="Col_SelectBut" class="btn btn-primary" type="button"
+    data-bs-target="#collapseExample" aria-expanded="false">
+    Column View
+  </button>
+
+
+
+</p>
+<div class="collapse ms-3 " id="collapseExample" style="width: 98%;">
+  <div class="card card-body p-1">
+
+    <div class="row ms-2">
+
+      <div class="col form-check">
+        <input class="form-check-input Ch_01" type="checkbox" value="" id="ID_check" checked>
+        <label class="form-check-label" for="ID_check">
+          ID
+        </label>
+      </div>
+      <div class="col form-check">
+        <input class="form-check-input" type="checkbox" value="" id="FullName_check" checked>
+        <label class="form-check-label" for="FullName_check">
+          Full Name
+        </label>
+      </div>
+
+      <div class="col form-check">
+        <input class="form-check-input" type="checkbox" value="" id="Gender_check" checked>
+        <label class="form-check-label" for="Gender_check">
+          Gender
+        </label>
+      </div>
+
+      <div class="col form-check">
+        <input class="form-check-input" type="checkbox" value="" id="Country_check" checked>
+        <label class="form-check-label" for="Country_check">
+          Country
+        </label>
+      </div>
+
+      <div class="col form-check">
+        <input class="form-check-input" type="checkbox" value="" id="Last_Update_check" checked>
+        <label class="form-check-label" for="Last_Update_check">
+          Last_Update
+        </label>
+      </div>
+
+
+    </div>
+
+
+
+    <div class="row ms-2">
+
+      <div class="col form-check">
+        <input class="form-check-input" type="checkbox" value="" id="Telephone_check" checked>
+        <label class="form-check-label" for="Telephone_check">
+          Telephone
+        </label>
+      </div>
+      <div class="col form-check">
+        <input class="form-check-input" type="checkbox" value="" id="Email_check" checked>
+        <label class="form-check-label" for="Email_check">
+          Email
+        </label>
+      </div>
+
+      <div class="col form-check">
+        <input class="form-check-input" type="checkbox" value="" id="Age_check" checked>
+        <label class="form-check-label" for="Age_check">
+          Age
+        </label>
+      </div>
+
+
+      <div class="col form-check">
+        <input class="form-check-input" type="checkbox" value="" id="Created_on_check" checked>
+        <label class="form-check-label" for="Created_on_check">
+          Created_on
+        </label>
+      </div>
+
+
+      <div class="col form-check">
+        <input class="form-check-input" type="checkbox" value="" id="Pic_check" checked>
+        <label class="form-check-label" for="Pic_check">
+          Pic
+        </label>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+
+<!-- Page Content *********************************************** -->
+
+<!-- table -->
+
+
+<table class="table mt-3 table-striped table-bordered mx-auto text-center fw-bold" style="width: 99% ;" id="data-table">
+  <thead> <!-- style="position: sticky; top: 66px ; z-index: 10" -->
+
+    <tr>
+      <th scope="col text-center" style="padding-bottom: 2rem;">#</th>
+      <th scope="col text-center" id="ID_COl" style="padding-bottom: 2rem;">ID</th>
+
+      <th scope="col" id="FullName_COl" style="padding-bottom: 1.2rem;"> <!--  Full Name -->
+
+        <div class="row m-0">
+
+          <div class="col-10 pt-2 text-center">
+            Full Name
+          </div>
+
+          <div class="col">
+
+            <div class="row">
+              <a href="/" class="btn btn-sm" style="padding: 0; border:none;">
+                <i class="UpSort bi bi-caret-up-square"></i>
+              </a>
+            </div>
+
+            <div class="row">
+              <a href="/ShowDataDecs" class="btn btn-sm" style="padding: 0; border:none;">
+                <i class="DownSort bi bi-caret-down-square"></i>
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </th>
+      <th scope="col text-center" id="Tel_COl" style="padding-bottom: 2rem;">Telephone</th>
+      <th scope="col text-center" id="Email_COl" style="padding-bottom: 2rem;">Email</th>
+      <th scope="col text-center" id="Gender_COl" style="padding-bottom: 2rem;">Gender</th>
+      <th scope="col text-center" id="Country_COl"> <!--  Country Name -->
+
+        <div class="container text-center " style="width: 90% ;">
+          <div class="col m-0">
+
+            <div class="row justify-content-md-center mb-2 ">
+              Country
+            </div>
+
+            <div class="row justify-content-md-center">
+
+              <div class="col-11 m-0 p-0">
+                <select id="formGroupExampleInput" class="form-select CountryClass text-center">
+
+                  <option selected hidden disabled>Choose Country for filter.......</option>
+                  {% for Country in Countries %}
+                  <option value="{{ Country[1] }}">{{ Country[1] }}</option>
+                  {%endfor%}
+
+                </select>
+              </div>
+
+              <div class="col-1 m-0 p-0">
+                <button class="btn btn-dark  btn-sm Edit_But" data-bs-toggle="tooltip" data-bs-placement="top"
+                  data-bs-title="Filter By Country Name" onclick="Filter_Country_Fun()"
+                  style="padding-bottom: 6px;padding-top: 6px;">
+                  <i id="Filter_Country_Icon" class="bi bi-funnel"></i>
+                </button>
+              </div>
+
+
+            </div>
+
+          </div>
+        </div>
+      </th>
+      <th scope="col text-center" id="Age_COl" style="padding-bottom: 2rem;">Age</th>
+
+      <th scope="col text-center" id="Create_date_COl" style="padding-bottom: 2rem;">Create date</th>
+      <th scope="col text-center" id="Last_Updateted_COl" style="padding-bottom: 2rem;">Last Updateted</th>
+      <th scope="col text-center" id="Pic_COl" style="padding-bottom: 2rem;">Pic</th>
+      <th scope="col" style="padding-bottom: 2rem;">Action</th>
+
+
+    </tr>
+  </thead>
+
+  <tbody>
+
+    {% for skill in skills %}
+
+    <tr>
+      <td scope="row">{{ loop.index }}</td>
+
+      <td scope="row" id="ID_COl" style="display:table-cell;">{{ skill[0] }}</td>
+      <td id="FullName_COl" style="display:table-cell;">{{ skill[1] }} {{ skill[2] }}</td>
+      <td id="Tel_COl" style="display:table-cell;">{{ skill[3] }}</td>
+      <td id="Email_COl" style="display:table-cell;">{{ skill[4] }}</td>
+      <td id="Gender_COl" style="display:table-cell;">{{ skill[5] }}</td>
+      <td id="Country_COl" style="display:table-cell;">{{ skill[7] }}</td>
+      <td id="Age_COl" style="display:table-cell;">{{ skill[6] }}</td>
+      <td id="Create_date_COl" style="display:table-cell;">{{ skill[8] }}</td>
+      <td id="Last_Updateted_COl" style="display:table-cell;">{{ skill[9] }}</td>
+
+
+      <td id="Pic_COl" style="display:table-cell;">
+
+        <img src="{{ url_for('static', filename=skill[10]) }}" alt="" width="35" height="35" class="img"
+          style="border-radius: 3px;">
+      </td>
+
+
+      <td style="display:table-cell;">
+
+
+        <button class="btn btn-primary  btn-sm  View_But" data-bs-toggle="tooltip" data-bs-placement="top"
+          data-bs-title="Show Data" onclick="window.location.href='/ViewPage?TT={{ skill[0] }}'">
+          <i class="bi bi-eye"></i>
+        </button>
+
+        <!-- <button class="btn btn-primary  btn-sm  View_But" data-bs-toggle="tooltip" data-bs-placement="top"
+          data-bs-title="Show Data" onclick="View_Emp_Data_Fun('{{ skill[0] }}')">
+          <i class="bi bi-eye"></i>
+         </button> -->
+
+        <button class="btn btn-primary  btn-sm Edit_But" data-bs-toggle="tooltip" data-bs-placement="top"
+          data-bs-title="Edit User" onclick="window.location.href='/EditUser?EE={{ skill[0] }}'">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+
+
+        <button id="Delete_But" class="btn btn-danger  btn-sm Delete_View_But" type="button" data-bs-placement="top"
+          data-bs-title="Delete User" data-bs-toggle="modal" data-bs-target="#exampleModal"
+          data-class-value="{{ skill[0] }}" onclick="Del_Atr('{{ skill[1] }} {{ skill[2] }}')">
+          <i class="bi bi-trash"></i>
+        </button>
+
+      </td>
+
+    </tr>
+
+    {%endfor%}
+
+  </tbody>
+</table>
+
+</div>
+
+<!--  ***************************** Pationation Area ********************************************** -->
+<nav aria-label="Page navigation example sticky-bottom" style="position: absolute; bottom: 5px; left: 50%;">
+  <ul class="pagination justify-content-center" id="pagination" style="cursor: pointer; font-color:wahite color: white;
+  border-color: white;">
+  </ul>
+</nav>
+<!--  ***************************** End Pationation Area ****************************************** -->
+
+
+
+
+
+<!-- ******************************** Pagintion cal ********************************************** -->
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const table = document.getElementById("data-table");
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+    const rowsPerPage = 10;
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
+    const paginationContainer = document.getElementById("pagination");
+
+    // Function to display rows for the current page
+    function displayRows(page) {
+      rows.forEach((row, index) => {
+        row.style.display = "none"; // Hide all rows initially
+        if (index >= (page - 1) * rowsPerPage && index < page * rowsPerPage) {
+          row.style.display = ""; // Show rows for the current page
+        }
+      });
+    }
+
+    // Function to generate pagination buttons
+    function generatePagination() {
+      paginationContainer.innerHTML = ""; // Clear existing buttons
+
+      for (let i = 1; i <= totalPages; i++) {
+
+        const a_li = document.createElement("a")
+        const Li_Element = document.createElement("li");
+
+        a_li.setAttribute("class", "page-link");
+        Li_Element.setAttribute("class", "page-item");
+
+        a_li.textContent = i;
+
+        a_li.addEventListener("click", () => {
+          displayRows(i); // Display rows for the clicked page
+          setActiveButton(i); // Update active button style
+        });
+
+        Li_Element.appendChild(a_li)
+        paginationContainer.appendChild(Li_Element);
+
+      }
+
+      setActiveButton(1); // Set the first button as active by default
+    }
+
+    // Function to set the active button style
+    function setActiveButton(activePage) {
+      const buttons = paginationContainer.querySelectorAll("a");
+      buttons.forEach((button, index) => {
+        button.classList.toggle("active", index + 1 === activePage);
+      });
+    }
+
+    // Initialize pagination
+    generatePagination();
+    displayRows(1); // Display the first page by default
+  });
+
+
+
+
+
+
+</script>
+<!-- ******************************** End Pagintion cal ********************************************** -->
+
+<!-- ********************************  Sort cal ****************************************************** -->
+
+<script>
+
+  let My_DownBut = document.querySelector('.DownSort')
+  let My_UpBut = document.querySelector('.UpSort')
+
+  document.querySelector('.UpSort').addEventListener('click', function () {
+
+    this.classList.remove("bi-caret-up-square")
+    this.classList.add("bi-caret-up-square-fill")
+
+    My_DownBut.classList.remove("bi-caret-down-square-fill")
+    My_DownBut.classList.add("bi-caret-down-square")
+
+  });
+
+  document.querySelector('.DownSort').addEventListener('click', function () {
+
+    this.classList.remove("bi-caret-down-square")
+    this.classList.add("bi-caret-down-square-fill")
+
+    My_UpBut.classList.remove("bi-caret-up-square-fill")
+    My_UpBut.classList.add("bi-caret-up-square")
+
+
+  });
+
+</script>
+
+<!-- ********************************  End Sort cal ************************************************** -->
+<!-- ********************************  make search button def Sort cal ******************************* -->
+
+<script>
+  // Add event listener to the entire document
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent default behavior
+      document.getElementById('SearchBut').click(); // Trigger the button click
+    }
+  });
+
+
+</script>
+
+<!-- ********************************  End make search button def Sort cal *************************** -->
+
+
+<!-- ********************************  FilterBy Country Ass Value      ******************************* -->
+
+<script>
+
+  let Filter_by_Country_v = document.querySelector(".CountryClass")
+  let Filter_Country_Icon_V = document.getElementById("Filter_Country_Icon")
+
+
+  if (localStorage.getItem("Filter_by_Country_IconClass") === "bi bi-funnel") {
+
+    Filter_Country_Icon_V.classList.remove("bi-funnel")
+    Filter_Country_Icon_V.classList.add("bi-x-square")
+    localStorage.setItem("Filter_by_Country_IconClass", "bi bi-x-square")
+    Filter_by_Country_v.value = localStorage.getItem("Filter_by_Country_VV")
+
+  } else if (localStorage.getItem("Filter_by_Country_IconClass") === "bi-x-square") {
+
+    Filter_Country_Icon_V.classList.remove("bi-x-square")
+    Filter_Country_Icon_V.classList.add("bi-funnel")
+    localStorage.setItem("Filter_by_Country_IconClass", "bi bi-funnel")
+    Filter_by_Country_v.value = "Choose Country for filter......."
+  }
+
+
+
+  function ColSelectBut() {
+    const Col_But = document.querySelector("#collapseExample")
+    Col_But.classList.toggle("show")
+  }
+</script>
+
+<!-- *********************************** show and hide column ********************************************** -->
+
+<script>
+
+  let ID_check_v = document.getElementById('ID_check');
+  let ID_COl_v = document.querySelectorAll('#ID_COl');
+
+
+
+
+  // Add an event listener to the checkbox
+
+  ID_check_v.addEventListener('change', () => {
+    if (ID_check_v.checked) {
+      for (let i = 0; i < ID_COl_v.length; i++) {
+        ID_COl_v[i].style.display = 'table-cell';// Show the element
+      }
+      localStorage.setItem("ID_Col_Checked", "Yes")
+    } else {
+      for (let i = 0; i < ID_COl_v.length; i++) {
+        ID_COl_v[i].style.display = 'none'; // Show the element
+      }
+      localStorage.setItem("ID_Col_Checked", "No")
+    }
+  });
+
+
+  let FullName_check_v = document.getElementById('FullName_check');
+  let FullName_COl_v = document.querySelectorAll('#FullName_COl');
+
+  FullName_check_v.addEventListener('change', () => {
+    if (FullName_check_v.checked) {
+      for (let i = 0; i < FullName_COl_v.length; i++) {
+        FullName_COl_v[i].style.display = 'table-cell';// Show the element
+      }
+      localStorage.setItem("FullName_Col_Checked", "Yes")
+    } else {
+      for (let i = 0; i < FullName_COl_v.length; i++) {
+        FullName_COl_v[i].style.display = 'none'; // Show the element
+      }
+      localStorage.setItem("FullName_Col_Checked", "No")
+    }
+  });
+
+
+  let Gender_check_v = document.getElementById('Gender_check');
+  let Gender_COl_v = document.querySelectorAll('#Gender_COl');
+
+  Gender_check_v.addEventListener('change', () => {
+    if (Gender_check_v.checked) {
+      for (let i = 0; i < Gender_COl_v.length; i++) {
+        Gender_COl_v[i].style.display = 'table-cell';
+        // Show the element
+      }
+      localStorage.setItem("Gender_Col_Checked", "Yes")
+    } else {
+      for (let i = 0; i < Gender_COl_v.length; i++) {
+        Gender_COl_v[i].style.display = 'none'; // Show the element
+      }
+      localStorage.setItem("Gender_Col_Checked", "No")
+    }
+  });
+
+
+  let Country_check_v = document.getElementById('Country_check');
+  let Country_COl_v = document.querySelectorAll('#Country_COl');
+
+  Country_check_v.addEventListener('change', () => {
+    if (Country_check_v.checked) {
+      for (let i = 0; i < Country_COl_v.length; i++) {
+        Country_COl_v[i].style.display = 'table-cell';
+        // Show the element
+      }
+      localStorage.setItem("Country_Col_Checked", "Yes")
+    } else {
+      for (let i = 0; i < Country_COl_v.length; i++) {
+        Country_COl_v[i].style.display = 'none'; // Show the element
+      }
+      localStorage.setItem("Country_Col_Checked", "No")
+    }
+  });
+
+
+
+  let Last_Update_check_v = document.getElementById('Last_Update_check');
+  let Last_Update_COl_v = document.querySelectorAll('#Last_Updateted_COl');
+
+  Last_Update_check_v.addEventListener('change', () => {
+    if (Last_Update_check_v.checked) {
+      for (let i = 0; i < Last_Update_COl_v.length; i++) {
+        Last_Update_COl_v[i].style.display = 'table-cell';  // Show the element
+      }
+      localStorage.setItem("Last_Update_Col_Checked", "Yes")
+    } else {
+      for (let i = 0; i < Last_Update_COl_v.length; i++) {
+        Last_Update_COl_v[i].style.display = 'none'; // Show the element
+      }
+      localStorage.setItem("Last_Update_Col_Checked", "No")
+    }
+  });
+
+
+  let Telephon_check_v = document.getElementById('Telephone_check');
+  let Telephon_COl_v = document.querySelectorAll('#Tel_COl');
+
+
+  Telephon_check_v.addEventListener('change', () => {
+    if (Telephon_check_v.checked) {
+      for (let i = 0; i < Telephon_COl_v.length; i++) {
+        Telephon_COl_v[i].style.display = 'table-cell';  // Show the element
+      }
+      localStorage.setItem("Telephon_Col_Checked", "Yes")
+    } else {
+      for (let i = 0; i < Telephon_COl_v.length; i++) {
+        Telephon_COl_v[i].style.display = 'none'; // Show the element
+      }
+      localStorage.setItem("Telephon_Col_Checked", "No")
+    }
+  });
+
+
+  let Email_check_v = document.getElementById('Email_check');
+  let Email_COl_v = document.querySelectorAll('#Email_COl');
+
+  Email_check_v.addEventListener('change', () => {
+    if (Email_check_v.checked) {
+      for (let i = 0; i < Email_COl_v.length; i++) {
+        Email_COl_v[i].style.display = 'table-cell';  // Show the element
+      }
+      localStorage.setItem("Email_Col_Checked", "Yes")
+    } else {
+      for (let i = 0; i < Email_COl_v.length; i++) {
+        Email_COl_v[i].style.display = 'none'; // Show the element
+      }
+      localStorage.setItem("Email_Col_Checked", "No")
+    }
+  });
+
+
+  let Age_check_v = document.getElementById('Age_check');
+  let Age_COl_v = document.querySelectorAll('#Age_COl');
+
+  Age_check_v.addEventListener('change', () => {
+    if (Age_check_v.checked) {
+      for (let i = 0; i < Age_COl_v.length; i++) {
+        Age_COl_v[i].style.display = 'table-cell';  // Show the element
+      }
+      localStorage.setItem("Age_Col_Checked", "Yes")
+    } else {
+      for (let i = 0; i < Age_COl_v.length; i++) {
+        Age_COl_v[i].style.display = 'none'; // Show the element
+      }
+      localStorage.setItem("Age_Col_Checked", "No")
+    }
+  });
+
+
+
+  let Create_date_check_v = document.getElementById('Created_on_check');
+  let Create_date_COl_v = document.querySelectorAll('#Create_date_COl');
+
+  Create_date_check_v.addEventListener('change', () => {
+    if (Create_date_check_v.checked) {
+      for (let i = 0; i < Create_date_COl_v.length; i++) {
+        Create_date_COl_v[i].style.display = 'table-cell';  // Show the element
+      }
+      localStorage.setItem("Create_date_Col_Checked", "Yes")
+    } else {
+      for (let i = 0; i < Create_date_COl_v.length; i++) {
+        Create_date_COl_v[i].style.display = 'none'; // Show the element
+      }
+      localStorage.setItem("Create_date_Col_Checked", "No")
+    }
+  });
+
+
+  let Pic_check_v = document.getElementById('Pic_check');
+  let Pic_COl_v = document.querySelectorAll('#Pic_COl');
+
+  Pic_check_v.addEventListener('change', () => {
+    if (Pic_check_v.checked) {
+      for (let i = 0; i < Pic_COl_v.length; i++) {
+        Pic_COl_v[i].style.display = 'table-cell';  // Show the element
+      }
+      localStorage.setItem("Pic_Col_Checked", "Yes")
+    } else {
+      for (let i = 0; i < Pic_COl_v.length; i++) {
+        Pic_COl_v[i].style.display = 'none'; // Show the element
+      }
+      localStorage.setItem("Pic_Col_Checked", "No")
+    }
+  });
+
+
+
+
+
+  if (localStorage.getItem("ID_Col_Checked") === "Yes") {
+
+    for (let i = 0; i < ID_COl_v.length; i++) {
+      ID_COl_v[i].style.display = 'table-cell';
+    }
+    ID_check_v.checked = true
+
+  } else {
+    for (let i = 0; i < ID_COl_v.length; i++) {
+      ID_COl_v[i].style.display = 'none';
+    }
+    ID_check_v.checked = false
+  };
+
+
+  if (localStorage.getItem("FullName_Col_Checked") === "Yes") {
+
+    for (let i = 0; i < FullName_COl_v.length; i++) {
+      FullName_COl_v[i].style.display = 'table-cell';
+    }
+    FullName_check_v.checked = true
+
+  } else {
+    for (let i = 0; i < FullName_COl_v.length; i++) {
+      FullName_COl_v[i].style.display = 'none';
+    }
+    FullName_check_v.checked = false
+  };
+
+
+  if (localStorage.getItem("Gender_Col_Checked") === "Yes") {
+
+    for (let i = 0; i < Gender_COl_v.length; i++) {
+      Gender_COl_v[i].style.display = 'table-cell';
+    }
+    Gender_check_v.checked = true
+
+  } else {
+    for (let i = 0; i < Gender_COl_v.length; i++) {
+      Gender_COl_v[i].style.display = 'none';
+    }
+    Gender_check_v.checked = false
+  };
+
+
+  if (localStorage.getItem("Country_Col_Checked") === "Yes") {
+
+    for (let i = 0; i < Country_COl_v.length; i++) {
+      Country_COl_v[i].style.display = 'table-cell';
+    }
+    Country_check_v.checked = true
+
+  } else {
+    for (let i = 0; i < Country_COl_v.length; i++) {
+      Country_COl_v[i].style.display = 'none';
+    }
+    Country_check_v.checked = false
+  };
+
+
+  if (localStorage.getItem("Last_Update_Col_Checked") === "Yes") {
+
+    for (let i = 0; i < Last_Update_COl_v.length; i++) {
+      Last_Update_COl_v[i].style.display = 'table-cell';
+    }
+    Last_Update_check_v.checked = true
+
+  } else {
+    for (let i = 0; i < Last_Update_COl_v.length; i++) {
+      Last_Update_COl_v[i].style.display = 'none';
+    }
+    Last_Update_check_v.checked = false
+  };
+
+
+
+  if (localStorage.getItem("Telephon_Col_Checked") === "Yes") {
+
+    for (let i = 0; i < Telephon_COl_v.length; i++) {
+      Telephon_COl_v[i].style.display = 'table-cell';
+    }
+    Telephon_check_v.checked = true
+
+  } else {
+    for (let i = 0; i < Telephon_COl_v.length; i++) {
+      Telephon_COl_v[i].style.display = 'none';
+    }
+    Telephon_check_v.checked = false
+  };
+
+
+  if (localStorage.getItem("Email_Col_Checked") === "Yes") {
+
+    for (let i = 0; i < Email_COl_v.length; i++) {
+      Email_COl_v[i].style.display = 'table-cell';
+    }
+    Email_check_v.checked = true
+
+  } else {
+    for (let i = 0; i < Email_COl_v.length; i++) {
+      Email_COl_v[i].style.display = 'none';
+    }
+    Email_check_v.checked = false
+  };
+
+
+
+  if (localStorage.getItem("Age_Col_Checked") === "Yes") {
+
+    for (let i = 0; i < Age_COl_v.length; i++) {
+      Age_COl_v[i].style.display = 'table-cell';
+    }
+    Age_check_v.checked = true
+
+  } else {
+    for (let i = 0; i < Age_COl_v.length; i++) {
+      Age_COl_v[i].style.display = 'none';
+    }
+    Age_check_v.checked = false
+  };
+
+
+  if (localStorage.getItem("Create_date_Col_Checked") === "Yes") {
+
+    for (let i = 0; i < Create_date_COl_v.length; i++) {
+      Create_date_COl_v[i].style.display = 'table-cell';
+    }
+    Create_date_check_v.checked = true
+
+  } else {
+    for (let i = 0; i < Create_date_COl_v.length; i++) {
+      Create_date_COl_v[i].style.display = 'none';
+    }
+    Create_date_check_v.checked = false
+  };
+
+
+  if (localStorage.getItem("Pic_Col_Checked") === "Yes") {
+
+    for (let i = 0; i < Pic_COl_v.length; i++) {
+      Pic_COl_v[i].style.display = 'table-cell';
+    }
+    Pic_check_v.checked = true
+
+  } else {
+    for (let i = 0; i < Pic_COl_v.length; i++) {
+      Pic_COl_v[i].style.display = 'none';
+    }
+    Pic_check_v.checked = false
+  };
+
+</script>
+
+<!-- ********************************  End FilterBy Country Ass Value *************************** -->
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete User</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the user ?
+        <hr>
+        <span id="Delelet_Words"></span>
+        <hr>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" onclick="delete_Fun()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--  *********************************** but name of user in delete form ******************** -->
+<script>
+
+  function Del_Atr(Del_Atr_V) {
+
+    let New_Del_Atr = document.getElementById("Delelet_Words")
+    New_Del_Atr.innerHTML = ""
+    New_Del_Atr.innerHTML = Del_Atr_V
+  }
+</script>
+
+
+{% endblock %}
