@@ -2,7 +2,7 @@ from flask import Flask , render_template, url_for,request,jsonify,redirect
 from flask_cors import CORS
 import os
 import json
-import pyautogui
+# import pyautogui
 import uuid # For generating unique names
 from pathlib import Path
 
@@ -13,6 +13,8 @@ app = Flask(__name__,template_folder='templates',static_folder='static',static_u
 
 app.config['UPLOAD_FOLDER'] = os.path.join('My_App/static', 'images')
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+
 
 
 # ***********************************************************************************************************************
@@ -336,7 +338,7 @@ def delete_Fun():
                            class_For_01=class_For_01, 
                            class_For_02=class_For_02,
                            Title_V = Title_V,
-                           skills = my_Skill ),pyautogui.press('f5')
+                           skills = my_Skill )
 
 
 # ***********************************************************************************************************************
