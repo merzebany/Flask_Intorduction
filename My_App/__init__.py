@@ -2,7 +2,7 @@ from flask import Flask , render_template, url_for,request,jsonify,redirect
 from flask_cors import CORS
 import os
 import json
-# import pyautogui
+
 import uuid # For generating unique names
 from pathlib import Path
 
