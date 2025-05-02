@@ -1,8 +1,6 @@
 
-
 {
-  "builds": {
-    "command": "npm run build",
-    "output": "dist"
-  }
+  
+  "builds": [{ "src": "app.py", "use": "@vercel/python" }],
+  "routes": [{ "src": "/(.*)","dest": "app.py" } ]
 }
