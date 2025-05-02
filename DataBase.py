@@ -1,6 +1,6 @@
 
-import pypyodbc
-
+# import pypyodbc
+import pyodbc
 
 # Define your connection parameters
 server = '41.38.197.252'  # e.g., 'localhost' or '41.38.197.252' 'DESKTOP-LMBLE4G\MERZOSQLEXPRESS'
@@ -14,7 +14,7 @@ connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};D
 # Connect to the database
 
 try:  
-    db = pypyodbc.connect(connection_string)
+    db = pyodbc.connect(connection_string)
     print("Connection successful!")
     
     cr = db.cursor()
