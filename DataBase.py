@@ -1,7 +1,7 @@
 
 # import pypyodbc
-import pyodbc
-
+# import pyodbc
+import pymssql
 # Define your connection parameters
 server = '41.38.197.252'  # e.g., 'localhost' or '41.38.197.252' 'DESKTOP-LMBLE4G\MERZOSQLEXPRESS'
 database = 'TestDB'
@@ -9,12 +9,15 @@ username = 'merzo'    # Use None if using Windows Authentication
 password = 'merzo1976'     # Use None if using Windows Authentication
 
 # Create the connection string
-connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+# connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+connection_string = f'SERVER={server}; user={username}; password={password};database={database}'
 
 # Connect to the database
 
 try:  
-    db = pyodbc.connect(connection_string)
+    # db = pyodbc.connect(connection_string)
+    
+    db = pymssql.connect(server='41.38.197.252', user='merzo', password='merzo1976', database='TestDB')
     print("Connection successful!")
     
     cr = db.cursor()
