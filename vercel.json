@@ -1,6 +1,6 @@
 
 {
   
-  "builds": [{ "src": "app.py", "use": "@vercel/python" ,"config": {"includeFiles": ["static/images"]}} ],
+  "builds": [{ "src": "app.py", "use": "@vercel/python" ,"config": {"includeFiles": ["My_App/static/images"]}} ],
   "routes": [{ "src": "/(.*)","dest": "app.py" } ]
 }
