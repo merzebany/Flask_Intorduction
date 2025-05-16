@@ -239,8 +239,9 @@
 
 
       <td id="Pic_COl" style="display:table-cell;">
-
-        <img src="{{ url_for('static', filename=skill[10]) }}" alt="" width="35" height="35" class="img"
+        
+ 
+        <img src="{{ skill[10] }}" alt="" width="35" height="35" class="img imgIndexPage"
           style="border-radius: 3px;">
       </td>
 
@@ -266,7 +267,7 @@
 
         <button id="Delete_But" class="btn btn-danger  btn-sm Delete_View_But" type="button" data-bs-placement="top"
           data-bs-title="Delete User" data-bs-toggle="modal" data-bs-target="#exampleModal"
-          data-class-value="{{ skill[0] }}" onclick="Del_Atr('{{ skill[1] }} {{ skill[2] }}')">
+          data-class-value="{{ skill[0] }}" onclick="Del_Atr('{{ skill[1] }} {{ skill[2] }}','{{ skill[10] }}')">
           <i class="bi bi-trash"></i>
         </button>
 
@@ -812,7 +813,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" onclick="delete_Fun()">Delete</button>
+        <button id="Final_Delete" type="button" class="btn btn-danger" onclick="delete_Fun()">Delete</button>
       </div>
     </div>
   </div>
@@ -822,11 +823,15 @@
 <!--  *********************************** but name of user in delete form ******************** -->
 <script>
 
-  function Del_Atr(Del_Atr_V) {
+  function Del_Atr(Del_Atr_V, Del_Pic) {
 
     let New_Del_Atr = document.getElementById("Delelet_Words")
     New_Del_Atr.innerHTML = ""
     New_Del_Atr.innerHTML = Del_Atr_V
+
+    let New_Del_Atr_01 = document.getElementById("Final_Delete")
+    New_Del_Atr_01.removeAttribute("data-Pic-Name")
+    New_Del_Atr_01.setAttribute("data-Pic-Name",Del_Pic)
   }
 </script>
 

@@ -1,17 +1,21 @@
 
 let classValue_V = ""
-
+let Old_Pic_V =""
 
 $(document).ready(function () {
 
   $(".Delete_View_But").on('click', function () {
+
     classValue_V = $(this).data('class-value');
+    
+    
   });
 
 
   $(document).on('click', '#DeleteViewBut01', function () {
 
     classValue_V = $(this).data('class-value_01');
+   
 
   });
 
@@ -25,10 +29,19 @@ $(document).ready(function () {
 
 function delete_Fun() {
 
-  const dir_value = { classValue_V };
-  const s = JSON.stringify(dir_value);
+  
+ 
+ 
+  let Del_Pic_Name = document.getElementById("Final_Delete")
+  let Del_Pic_Name_V= Del_Pic_Name.getAttribute("data-Pic-Name")
+  // let Old_Pic02 = document.querySelector(".Delete_View_But").dataset('old-pic')
+  let Old_Pic = Del_Pic_Name_V.split('/').pop();
 
 
+  var formData = new FormData();
+  formData.append('Emp_ID', classValue_V);
+  formData.append('Old_Pic', Old_Pic);
+  
   $.ajax({
 
     url: "/delete_Fun",
@@ -36,12 +49,21 @@ function delete_Fun() {
 
     contentType: "application/json",
     context: document.body,
-    data: JSON.stringify(s)
+    data: formData,
+    processData: false, 
+    contentType: false
+  
 
-
-  });
+  }).done(function (response) {
+      // Assuming the server returns the rendered HTML
+      document.body.innerHTML = response; // Replace the entire page content
+      window.location.href = "/"
+    }).fail(function (error) {
+      
+      console.error("Error:", error);
+    }); 
   // window.location.href = "/"
-};
+ };
 
 
 // function delete_Fun_01() {
@@ -180,7 +202,10 @@ function Updata_Fun() {
   let LastUpdate_V = `${year}-${month}-${day}` + " " + `${hours}:${minutes}`
 
   let Pic_V = document.querySelector(".pic_for_emp").getAttribute("data-picPath")
+  let Old_Pic_V = document.querySelector(".pic_for_emp").getAttribute("data-OldpicPath")
 
+   let Old_fileInput = document.querySelector(".pic_for_emp").src;
+    
  
 
   if (FirstName_V == "") {
@@ -237,16 +262,20 @@ function Updata_Fun() {
     var formData = new FormData();
     const fileInput = document.getElementById('imgInput');
     
-            let file = fileInput.files[0];
+    let file = fileInput.files[0];
            
             if (!file) {
                
               // alert("Please select a file.");   ProfileIcon.webp
-             
+              console.log("++++++++++++++++++++++++++++")
+              console.log(Old_Pic_V)
+              console.log(Old_fileInput)
+              console.log(Pic_V)
+
               formData.append('image','');
     
             } else {
-              
+               console.log("*************************** ")
                formData.append('image',file);
     }
     
@@ -259,8 +288,9 @@ function Updata_Fun() {
             formData.append('Updated_Country', Country_V);  
             formData.append('Updated_Last_Update', LastUpdate_V);
             formData.append('Emp_ID', ID_V);
-            formData.append('Emp_pic', Pic_V);
-    
+            formData.append('Emp_Old_pic', Old_Pic_V);
+            formData.append('Emp_Old_fileInput', Old_fileInput);
+             
            
     $.ajax({
 
@@ -374,6 +404,7 @@ async function Add_Fun() {
     
     var formData = new FormData();
     const fileInput = document.getElementById('imgInput');
+   
             let file = fileInput.files[0];
            
             if (!file) {
@@ -487,7 +518,7 @@ function Filter_Country_Fun() {
   localStorage.setItem("Filter_by_Country_VV", Filter_by_Country_v)
   localStorage.setItem("Filter_by_Country_IconClass",Filter_Country_Icon_V.getAttribute("class")) 
 
-  console.log(Filter_by_Country_v)
+ 
 
   if (Filter_by_Country_v == "" || Filter_Country_Icon_V.getAttribute("class") =="bi bi-x-square" ) {
     window.location.href = "/"

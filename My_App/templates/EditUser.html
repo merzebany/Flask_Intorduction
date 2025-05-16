@@ -132,8 +132,8 @@
         <input type="file" name="file" id="imgInput" accept="image/*" required>
         <i class="bi bi-plus-circle-dotted"></i>
       </label>
-      <img src="{{ url_for('static', filename=skill[10]) }}" alt="" width="200" height="200" class="img pic_for_emp"
-        data-picPath="{{ skill[10] }}">
+      <img src="{{ skill[10] }}" alt="" width="200" height="200" class="img pic_for_emp"
+        data-picPath="{{ skill[10] }}" data-OldpicPath="https://elolabnvelujlzrdtgdu.supabase.co/storage/v1/object/public/images/ProfileIcon.webp" >
 
     </div>
   </div>
@@ -147,7 +147,7 @@
 
       <button type="button" id="DeleteViewBut01" class="btn btn-danger Delete_Item" data-bs-placement="top"
         data-bs-title="Delete User" data-bs-toggle="modal" data-bs-target="#exampleModal_01"
-        data-class-value_01="{{ skill[0] }}">
+        data-class-value_01="{{ skill[0] }}" onclick="Del_Atr('{{ skill[1] }} {{ skill[2] }}','{{ skill[10] }}')">
         Delete User
       </button>
     </div>
@@ -170,10 +170,14 @@
       </div>
       <div class="modal-body">
         Are you sure you want to delete the user ?
+        <hr>
+        <span id="Delelet_Words"></span>
+        <hr>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" onclick="delete_Fun()">Delete</button>
+        <button id="Final_Delete" type="button" class="btn btn-danger" onclick="delete_Fun()">Delete</button>
       </div>
     </div>
   </div>
@@ -186,6 +190,15 @@
   const fileInput = document.getElementById("imgInput");
 
   fileInput.addEventListener("change", function () {
+    
+    const image_V = document.querySelector(".img")
+    let Old_image_V = image_V.getAttribute("data-picPath");
+    let Old_pic_name = document.querySelector(".img").src.split('/').pop()
+  
+
+    image_V.setAttribute("data-OldpicPath",Old_pic_name)
+
+
     if (fileInput.files.length > 0) {
       const file = fileInput.files[0];
       const reader = new FileReader();
@@ -208,12 +221,34 @@
   function Remove_Pic_Fun() {
 
     const image_V = document.querySelector(".img");
+
+    let Old_image_V = image_V.getAttribute("data-picPath");
+    
+    let Old_pic_name = document.querySelector(".img").src.split('/').pop()
+
+    image_V.setAttribute("data-OldpicPath",Old_pic_name)
+
     image_V.removeAttribute("src");
-    image_V.src = "{{ url_for('static', filename='images/ProfileIcon.webp') }}";
-    image_V.setAttribute("data-picPath","images/ProfileIcon.webp")
+    image_V.src = "https://elolabnvelujlzrdtgdu.supabase.co/storage/v1/object/public/images/ProfileIcon.webp";
+    image_V.setAttribute("data-picPath", "https://elolabnvelujlzrdtgdu.supabase.co/storage/v1/object/public/images/ProfileIcon.webp")
   }
 </script>
 
+
+<!--  *********************************** but name of user in delete form ******************** -->
+<script>
+
+  function Del_Atr(Del_Atr_V, Del_Pic) {
+
+    let New_Del_Atr = document.getElementById("Delelet_Words")
+    New_Del_Atr.innerHTML = ""
+    New_Del_Atr.innerHTML = Del_Atr_V
+
+    let New_Del_Atr_01 = document.getElementById("Final_Delete")
+    New_Del_Atr_01.removeAttribute("data-Pic-Name")
+    New_Del_Atr_01.setAttribute("data-Pic-Name",Del_Pic)
+  }
+</script>
 
 
 {% endblock %}

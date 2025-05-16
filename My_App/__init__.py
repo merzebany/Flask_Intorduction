@@ -2,11 +2,27 @@ from flask import Flask , render_template, url_for,request,jsonify,redirect
 from flask_cors import CORS
 import os
 import json
+import requests
+from supabase import create_client, Client
 
 import uuid # For generating unique names
 from pathlib import Path
 
 app = Flask(__name__,template_folder='templates',static_folder='static',static_url_path='/My_App')
+
+# Supabase config
+
+SUPABASE_URL = "https://elolabnvelujlzrdtgdu.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsb2xhYm52ZWx1amx6cmR0Z2R1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NjgwNTYyNywiZXhwIjoyMDYyMzgxNjI3fQ.3m0UbcvKdKyQ19Sde6vD0VO_kWmcEFOTQQFeZjMJDws"
+BUCKET = "images"
+HEADERS = {
+    "Authorization": f"Bearer {SUPABASE_KEY}",
+    "Content-Type": "application/octet-stream",
+    "apikey": SUPABASE_KEY
+}
+image_url = ""
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # CORS(app, methods=["GET", "POST", "PUT", "DELETE"])
 
@@ -171,25 +187,60 @@ def UpdataUserData_Fun():
       Country = request.form.get('Updated_Country')
       Last_Update = request.form.get('Updated_Last_Update')
       Emp_ID_01 = request.form.get('Emp_ID')
-      Emp_pic_01 = request.form.get('Emp_pic')
-  
+      
+      Emp_Old_pic_01 = request.form.get('Emp_Old_pic')
+      Emp_Old_fileInput_01 = request.form.get('Emp_Old_fileInput')
+                    
 
       # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
       image_01 = request.form.get('image') 
 
       if image_01 == '' :
-        final_Pic_Path = Emp_pic_01
+        final_Pic_Path = "https://elolabnvelujlzrdtgdu.supabase.co/storage/v1/object/public/images/ProfileIcon.webp"
+        
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # ++++++++++++++++++++++ Delete Old Pic +++++++++++++++++++++++++++++++++++++
+    
+        if Emp_Old_pic_01 != "ProfileIcon.webp" :
+         supabase.storage.from_(BUCKET).remove([Emp_Old_pic_01])
+         
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+         
       else:
+        
         file = request.files['image'] 
         file_extension = Path(file.filename).suffix
         new_filename = f"{uuid.uuid4()}{file_extension}"
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
-        file.save(filepath)
-        final_Pic_Path = f"images/" + new_filename
-
-      
-
+        
+        # filepath = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
+        # file.save(filepath)
+        # final_Pic_Path = f"images/" + new_filename
+       
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+        file_data = file.read()
+        upload_url = f"{SUPABASE_URL}/storage/v1/object/{BUCKET}/{new_filename}"
+        response = requests.post(upload_url, headers=HEADERS, data=file_data)
+       
+        if response.status_code != 200:
+            return f"Upload failed: {response.text}", 500
+        
+        # Public image URL
+        final_Pic_Path = f"{SUPABASE_URL}/storage/v1/object/public/{BUCKET}/{new_filename}"
+    
+  
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # ++++++++++++++++++++++ Delete Old Pic +++++++++++++++++++++++++++++++++++++
+    
+        if Emp_Old_pic_01 != "ProfileIcon.webp" :
+         supabase.storage.from_(BUCKET).remove([Emp_Old_pic_01])
+         
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  
       from DataBase import update_Emp_Data   
       update_Emp_Data ( first_name,
                         last_name,
@@ -256,36 +307,50 @@ def ADDNewUserData_Fun():
       image_01 = request.form.get('image') 
 
       if image_01 == '' :
-        final_Pic_Path = "images/ProfileIcon.webp"
+        image_url = "https://elolabnvelujlzrdtgdu.supabase.co/storage/v1/object/public/images/ProfileIcon.webp"
       else:
         file = request.files['image']  
-    #  # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    #   if 'image' not in request.files:
-    #       # return "No file part", 400
-    #       final_Pic_Path = "images/images/ProfileIcon.webp"
-
-    #   file = request.files['image']
+     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        if 'image' not in request.files:
+          # return "No file part", 400
+          image_url = "https://elolabnvelujlzrdtgdu.supabase.co/storage/v1/object/public/images/ProfileIcon.webp"
       
-    #   if file.filename == '' :
-    #     #  return "No selected file", 400
-    #      final_Pic_Path = "images/images/ProfileIcon.webp"
+        if file.filename == '' :
+        #  return "No selected file", 400
+         image_url = "https://elolabnvelujlzrdtgdu.supabase.co/storage/v1/object/public/images/ProfileIcon.webp"
 
-    #   else:
+        else:
     # Save the file to the upload folder
 
-        file_extension = Path(file.filename).suffix
+          file_extension = Path(file.filename).suffix
         # new_filename = f"{first_name} _ {last_name}{file_extension}" 
-        new_filename = f"{uuid.uuid4()}{file_extension}"
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
-        file.save(filepath)
+          new_filename = f"{uuid.uuid4()}{file_extension}"
+        
+        # filepath = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
+        # file.save(filepath)
         # final_Pic_Path = filepath[14:]
-        final_Pic_Path = f"images/" + new_filename
+        # final_Pic_Path = f"images/" + new_filename
+        
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+        file_data = file.read()
+        upload_url = f"{SUPABASE_URL}/storage/v1/object/{BUCKET}/{new_filename}"
+        response = requests.post(upload_url, headers=HEADERS, data=file_data)
+        
+        if response.status_code != 200:
+            return f"Upload failed: {response.text}", 500
 
-
+        # Public image URL
+        image_url = f"{SUPABASE_URL}/storage/v1/object/public/{BUCKET}/{new_filename}"
+    
+  
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  
 
       from DataBase import ADD_Emp_Data   
-     
+
       ADD_Emp_Data (   first_name,
                        last_name,
                         Telephone,
@@ -295,7 +360,7 @@ def ADDNewUserData_Fun():
                         Country,
                         Createdate,
                         Last_Update,
-                        final_Pic_Path)
+                        image_url)
 
 
       from DataBase import show_skills
@@ -320,11 +385,25 @@ def ADDNewUserData_Fun():
 
 def delete_Fun():
 
-  V1 = request.get_json()
-  result_01 = json.loads(V1)
+  # V1 = request.get_json()
+  # result_01 = json.loads(V1)
   
+  
+  Emp_ID_01 = request.form.get('Emp_ID')
+  Old_Pic_01 = request.form.get('Old_Pic')
+      
+  print(Old_Pic_01)    
+  # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  # ++++++++++++++++++++++ Delete Old Pic +++++++++++++++++++++++++++++++++++++
+    
+  if Old_Pic_01 != "ProfileIcon.webp" :
+      supabase.storage.from_(BUCKET).remove([Old_Pic_01])
+
+  # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
   from DataBase import Delete_skill
-  Delete_skill(result_01['classValue_V'])
+  Delete_skill(Emp_ID_01)
 
   
   from DataBase import show_skills
@@ -406,29 +485,33 @@ def Filter_Data_ByCountry_Fun():
 
 
 
-# ***********************************************************************************************************************
-# ******************************* Upload pic        *********************************************************************
-# ***********************************************************************************************************************
+# # ***********************************************************************************************************************
+# # ******************************* Upload pic        *********************************************************************
+# # ***********************************************************************************************************************
 
     
 
-@app.route('/upload', methods=['POST'])
-def upload_fun():
+# @app.route('/upload', methods=['POST'])
+# def upload_fun():
 
   
-    if 'file' not in request.files:
-        return "No file part", 400
+#     if 'file' not in request.files:
+#         return "No file part", 400
     
-    file = request.files['file']
+#     file = request.files['file']
     
-    if file.filename == '':
-        return "No selected file", 400
+#     if file.filename == '':
+#         return "No selected file", 400
     
-    # Save the file to the upload folder
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-    print(filepath)
-    file.save(filepath)
+#     # Save the file to the upload folder
+#     filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+   
+#     file.save(filepath)
     
-    # with open(filepath, "rb") as image_file:
-    #  encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-    return  render_template("Add.html")
+#     # with open(filepath, "rb") as image_file:
+#     #  encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+#     return  render_template("Add.html")
+  
+  
+  
+  
