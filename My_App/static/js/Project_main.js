@@ -267,16 +267,13 @@ function Updata_Fun() {
             if (!file) {
                
               // alert("Please select a file.");   ProfileIcon.webp
-              console.log("++++++++++++++++++++++++++++")
-              console.log(Old_Pic_V)
-              console.log(Old_fileInput)
-              console.log(Pic_V)
-
+              
               formData.append('image','');
     
             } else {
-               console.log("*************************** ")
-               formData.append('image',file);
+               
+              formData.append('image', file);
+             
     }
     
             formData.append('Updated_First_Name', FirstName_V);
@@ -300,19 +297,6 @@ function Updata_Fun() {
       data: formData, 
       processData: false, // Don't process the data
       contentType: false, // Don't set content type
-
-      // data: JSON.stringify({
-      //   'Updated_First_Name': FirstName_V,
-      //   'Updated_Last_Name': LastName_V,
-      //   'Updated_Telephone': Telephone_V,
-      //   'Updated_Last_Email': Email_V,
-      //   'Updated_Gender': Gender_V,
-      //   'Updated_Age': Age_V,
-      //   'Updated_Country': Country_V,
-      //   'Updated_Last_Update': LastUpdate_V,
-      //   'Emp_ID': ID_V,
-      //   'Emp_pic' :Pic_V
-      // })
 
     }).done(function (response) {
       // Assuming the server returns the rendered HTML

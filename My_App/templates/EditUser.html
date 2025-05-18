@@ -134,8 +134,9 @@
       </label>
       <img src="{{ skill[10] }}" alt="" width="200" height="200" class="img pic_for_emp"
         data-picPath="{{ skill[10] }}" data-OldpicPath="https://elolabnvelujlzrdtgdu.supabase.co/storage/v1/object/public/images/ProfileIcon.webp" >
-
+      
     </div>
+    <p id="sizeError" style="color:red;"></p>
   </div>
 
 
@@ -189,7 +190,7 @@
 
   const fileInput = document.getElementById("imgInput");
 
-  fileInput.addEventListener("change", function () {
+  fileInput.addEventListener("change", function (e) {
     
     const image_V = document.querySelector(".img")
     let Old_image_V = image_V.getAttribute("data-picPath");
@@ -197,25 +198,38 @@
   
 
     image_V.setAttribute("data-OldpicPath",Old_pic_name)
-
+     
 
     if (fileInput.files.length > 0) {
       const file = fileInput.files[0];
       const reader = new FileReader();
 
+      const maxSizeKB = 250;
 
       const image_V = document.querySelector(".img");
       image_V.removeAttribute("Remove_Index");
       
+      if (file) {
+        const fileSizeKB = file.size / 1024; // Convert bytes to KB
+        
+        if (fileSizeKB > maxSizeKB) {
+            document.getElementById('sizeError').textContent = 
+                `File is too large (${fileSizeKB.toFixed(2)} KB). Maximum allowed: ${maxSizeKB} KB`;
+            e.target.value = ''; // Clear the file input
+        } else {
 
-      reader.onload = function (e) {
-        const imgElement = document.querySelector(".img");
-        imgElement.removeAttribute("src");
-        imgElement.src = e.target.result; //   Set the image source to the base64-encoded data URL
-
-      };
-      reader.readAsDataURL(file); // Read the file as a data URL
+           reader.onload = function (e) {
+           const imgElement = document.querySelector(".img");
+           imgElement.removeAttribute("src");
+           imgElement.src = e.target.result; //   Set the image source to the base64-encoded data URL
+        }
+           document.getElementById('sizeError').textContent = '';
+           reader.readAsDataURL(file);  // Read the file as a data URL
+        }; };
+           
+           
     }
+
   });
 
   function Remove_Pic_Fun() {
@@ -231,6 +245,7 @@
     image_V.removeAttribute("src");
     image_V.src = "https://elolabnvelujlzrdtgdu.supabase.co/storage/v1/object/public/images/ProfileIcon.webp";
     image_V.setAttribute("data-picPath", "https://elolabnvelujlzrdtgdu.supabase.co/storage/v1/object/public/images/ProfileIcon.webp")
+    document.getElementById('sizeError').textContent = '';
   }
 </script>
 
