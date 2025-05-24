@@ -8,7 +8,7 @@
 
 <style>
   .img {
-
+    
     transition: transform 0.5s ease;
   }
 
@@ -41,7 +41,10 @@
 
 
 </p>
+
+
 <div class="collapse ms-3 " id="collapseExample" style="width: 98%;">
+
   <div class="card card-body p-1">
 
     <div class="row ms-2">
@@ -58,21 +61,18 @@
           Full Name
         </label>
       </div>
-
       <div class="col form-check">
         <input class="form-check-input" type="checkbox" value="" id="Gender_check" checked>
         <label class="form-check-label" for="Gender_check">
           Gender
         </label>
       </div>
-
       <div class="col form-check">
         <input class="form-check-input" type="checkbox" value="" id="Country_check" checked>
         <label class="form-check-label" for="Country_check">
           Country
         </label>
       </div>
-
       <div class="col form-check">
         <input class="form-check-input" type="checkbox" value="" id="Last_Update_check" checked>
         <label class="form-check-label" for="Last_Update_check">
@@ -80,10 +80,7 @@
         </label>
       </div>
 
-
     </div>
-
-
 
     <div class="row ms-2">
 
@@ -99,36 +96,30 @@
           Email
         </label>
       </div>
-
       <div class="col form-check">
         <input class="form-check-input" type="checkbox" value="" id="Age_check" checked>
         <label class="form-check-label" for="Age_check">
           Age
         </label>
       </div>
-
-
       <div class="col form-check">
         <input class="form-check-input" type="checkbox" value="" id="Created_on_check" checked>
         <label class="form-check-label" for="Created_on_check">
           Created_on
         </label>
       </div>
-
-
       <div class="col form-check">
         <input class="form-check-input" type="checkbox" value="" id="Pic_check" checked>
         <label class="form-check-label" for="Pic_check">
           Pic
         </label>
       </div>
+
     </div>
-
-
-
 
   </div>
 </div>
+
 
 <!-- Page Content *********************************************** -->
 
@@ -280,17 +271,46 @@
   </tbody>
 </table>
 
-</div>
 
 <!--  ***************************** Pationation Area ********************************************** -->
-<nav aria-label="Page navigation example sticky-bottom" style="position: absolute; bottom: 5px; left: 50%;">
-  <ul class="pagination justify-content-center" id="pagination" style="cursor: pointer; font-color:wahite color: white;
-  border-color: white;">
-  </ul>
-</nav>
+
+<div class="container sticky-bottom text-center mx-auto fw-bold "  style="position: absolute; width: 30%;">
+
+   <div class="row text-center" >
+    
+       
+       <div class="col">
+
+        <div class="row ">
+
+            <div class="col p-0 text-center">
+               <label class="form-label " for="NoOfRowPage" style="padding-top: 6px;"> No of row per page </label>
+            </div>
+            <div class="col p-0 text-center">
+               <input class="form-control" type="number" value="10" min="5" max="15" id="NoOfRowPage" style="width:70px;" > 
+            </div>
+            <div class="col-6 p-0 text-center">
+              <nav aria-label="Page navigation example" >
+                <ul class="pagination " id="pagination" style="cursor: pointer; font-color:wahite color: white;
+                     border-color: white;">
+               </ul>
+              </nav>
+            </div>
+        </div>
+
+       </div>
+
+       
+
+
+   </div>
+
+</div>
+
+
 <!--  ***************************** End Pationation Area ****************************************** -->
 
-
+ 
 
 
 
@@ -300,11 +320,15 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     const table = document.getElementById("data-table");
+     
     const tbody = table.querySelector("tbody");
     const rows = Array.from(tbody.querySelectorAll("tr"));
-    const rowsPerPage = 10;
-    const totalPages = Math.ceil(rows.length / rowsPerPage);
+    let rowsPerPage = document.getElementById("NoOfRowPage").value;
+    let totalPages = Math.ceil(rows.length / rowsPerPage);
     const paginationContainer = document.getElementById("pagination");
+
+    
+
 
     // Function to display rows for the current page
     function displayRows(page) {
@@ -319,7 +343,7 @@
     // Function to generate pagination buttons
     function generatePagination() {
       paginationContainer.innerHTML = ""; // Clear existing buttons
-
+     
       for (let i = 1; i <= totalPages; i++) {
 
         const a_li = document.createElement("a")
@@ -350,6 +374,18 @@
         button.classList.toggle("active", index + 1 === activePage);
       });
     }
+
+
+    const Change_NoRaw = document.getElementById("NoOfRowPage");
+   
+    Change_NoRaw.addEventListener("change", function () {
+
+        rowsPerPage = document.getElementById("NoOfRowPage").value;
+        totalPages = Math.ceil(rows.length / rowsPerPage);
+        generatePagination();
+        displayRows(1);
+     })
+
 
     // Initialize pagination
     generatePagination();
@@ -449,9 +485,6 @@
 
   let ID_check_v = document.getElementById('ID_check');
   let ID_COl_v = document.querySelectorAll('#ID_COl');
-
-
-
 
   // Add an event listener to the checkbox
 
