@@ -130,10 +130,10 @@
   <thead> <!-- style="position: sticky; top: 66px ; z-index: 10" -->
 
     <tr>
-      <th scope="col text-center" style="padding-bottom: 2rem;">#</th>
-      <th scope="col text-center" id="ID_COl" style="padding-bottom: 2rem;">ID</th>
+      <th scope="col text-center" style="padding-bottom: 2rem; width: 3%;">#</th>
+      <th scope="col text-center" id="ID_COl" style="padding-bottom: 2rem; width: 3%;">ID</th>
 
-      <th scope="col" id="FullName_COl" style="padding-bottom: 1.2rem;"> <!--  Full Name -->
+      <th scope="col" id="FullName_COl" style="padding-bottom: 1.2rem; width: 15%;"> <!--  Full Name -->
 
         <div class="row m-0">
 
@@ -161,10 +161,10 @@
         </div>
 
       </th>
-      <th scope="col text-center" id="Tel_COl" style="padding-bottom: 2rem;">Telephone</th>
-      <th scope="col text-center" id="Email_COl" style="padding-bottom: 2rem;">Email</th>
-      <th scope="col text-center" id="Gender_COl" style="padding-bottom: 2rem;">Gender</th>
-      <th scope="col text-center" id="Country_COl"> <!--  Country Name -->
+      <th scope="col text-center" id="Tel_COl" style="padding-bottom: 2rem; width: 9%;">Telephone</th>
+      <th scope="col text-center" id="Email_COl" style="padding-bottom: 2rem; width: 17%;">Email</th>
+      <th scope="col text-center" id="Gender_COl" style="padding-bottom: 2rem; width: 5%;">Gender</th>
+      <th scope="col text-center" id="Country_COl" style="width: 13%;"> <!--  Country Name -->
 
         <div class="container text-center " style="width: 90% ;">
           <div class="col m-0">
@@ -199,13 +199,15 @@
 
           </div>
         </div>
-      </th>
-      <th scope="col text-center" id="Age_COl" style="padding-bottom: 2rem;">Age</th>
 
-      <th scope="col text-center" id="Create_date_COl" style="padding-bottom: 2rem;">Create date</th>
-      <th scope="col text-center" id="Last_Updateted_COl" style="padding-bottom: 2rem;">Last Updateted</th>
-      <th scope="col text-center" id="Pic_COl" style="padding-bottom: 2rem;">Pic</th>
-      <th scope="col" style="padding-bottom: 2rem;">Action</th>
+      </th>
+      <th scope="col text-center" id="Age_COl" style="padding-bottom: 2rem; width: 3%;">Age</th>
+
+      <th scope="col text-center" id="Create_date_COl" style="padding-bottom: 2rem;width: 9%;">Create date</th>
+      <th scope="col text-center" id="Last_Updateted_COl" style="padding-bottom: 2rem;width: 9%;">Last Updateted</th>
+      <th scope="col text-center" id="Pic_COl" style="padding-bottom: 2rem; width: 5%;">Pic</th>
+      <th scope="col" style="padding-bottom: 2rem;"></th>
+      <th scope="col" style="padding-bottom: 2rem; width: 10%;">Action</th>
 
 
     </tr>
@@ -234,8 +236,9 @@
  
         <img src="{{ skill[10] }}" alt="" width="35" height="35" class="img imgIndexPage"
           style="border-radius: 3px;">
-      </td>
+      </td> 
 
+      <td id="None_COl" style="display:table-cell;"></td>
 
       <td style="display:table-cell;">
 

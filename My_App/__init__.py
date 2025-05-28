@@ -50,8 +50,6 @@ def Index():
     from DataBase import  show_Countries_Filter
     Countries_Filter =  show_Countries_Filter()
 
- 
-
     return render_template( template_name_or_list= "index.html" , 
                            class_For_01=class_For_01, 
                            class_For_02=class_For_02,
@@ -484,34 +482,3 @@ def Filter_Data_ByCountry_Fun():
                            Countries = Countries_Filter )
 
 
-
-# # ***********************************************************************************************************************
-# # ******************************* Upload pic        *********************************************************************
-# # ***********************************************************************************************************************
-
-    
-
-# @app.route('/upload', methods=['POST'])
-# def upload_fun():
-
-  
-#     if 'file' not in request.files:
-#         return "No file part", 400
-    
-#     file = request.files['file']
-    
-#     if file.filename == '':
-#         return "No selected file", 400
-    
-#     # Save the file to the upload folder
-#     filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-   
-#     file.save(filepath)
-    
-#     # with open(filepath, "rb") as image_file:
-#     #  encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-#     return  render_template("Add.html")
-  
-  
-  
-  
