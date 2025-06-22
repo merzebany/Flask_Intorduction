@@ -1,0 +1,197 @@
+{% extends "base.html" %} {% block PageContent %}
+
+<div class="row row justify-content-center gx-3 mx-0 mt-2">
+  <div
+    class="card card-style m-2"
+    style="width: 30%; max-width: 800px; border: solid"
+  >
+    <div class="card-body">
+      <div class="chart-container" style="borderwidth: 3px">
+        <canvas id="CountryPercentage" height="312px"></canvas>
+      </div>
+    </div>
+  </div>
+
+
+   <div
+    class="card card-style m-2"
+    style="width: 30%; max-width: 800px; border: solid"
+  >
+    <div class="card-body">
+      <div class="chart-container" style="borderwidth: 3px">
+        <canvas id="AgePercentage" height="312px"></canvas>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+{% block javascript %}
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+
+<script>
+
+  let CountryPercentage_data = JSON.parse({{ CountryPercentage_data_Py | tojson  }})
+
+  console.log(CountryPercentage_data)
+  //console.log(typeof income_vs_expense_data)
+
+  let parsedData = JSON.parse(CountryPercentage_data);
+
+  //console.log(parsedData)
+  let Col_Data = [];
+  let Lable_Data = [];
+
+   parsedData.forEach(pair => {
+   let number = pair[0];   // first item is number
+   let text = pair[1];     // second item is string
+
+   Col_Data.push(Number(number));  // ensure it's a number
+   Lable_Data.push(text.trim());     // remove extra space with .trim()
+  });
+
+
+  var ctx = document.getElementById("CountryPercentage");
+
+
+  let mychart = new Chart(ctx, {
+
+        type: 'pie',
+        data: {
+            labels: Lable_Data,
+            datasets: [{
+               // label: "Income Vs Expenses",
+                data: Col_Data,
+                borderWidth: 1,
+                hoverBorderColor: "black",
+                hoverBorderWidth: 2,
+                hoverBackgroundColor: 'rgba(154, 245, 140)',
+                pointHoverRadius: 5,
+
+            }],
+              },
+
+        options: {
+                   plugins: {
+                              title: {
+                                   display: true,
+                                   color:'rgb(0, 0, 255)',
+                                   text: 'Country',
+                                   font: {
+                                              size: 30 // Legend font size
+                                         }
+                                     },
+
+                              legend: {
+                                    position: "right",
+                                    display: true,
+                                    labels: {
+                                              color: 'rgb(0, 0, 255)', // Legend font color
+                                              font: {
+                                                      size: 16 // Legend font size
+                                                    }
+                                             }
+                                       }
+                              },
+                   
+                    elements: {
+                              hitRadius: 3,
+                              }
+                   }
+                                 
+
+    });
+</script>
+
+
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+
+
+<script>
+
+  let AgePercentage_data = JSON.parse({{ AgePercentage_data_Py | tojson  }})
+
+  console.log(AgePercentage_data)
+  //console.log(typeof income_vs_expense_data)
+
+  let parsedData_01 = JSON.parse(AgePercentage_data);
+
+  //console.log(parsedData)
+  let Col_Data_01 = [];
+  let Lable_Data_01 = [];
+
+   parsedData_01.forEach(pair => {
+   let number_01 = pair[0];   // first item is number
+   let text_01 = pair[1];     // second item is string
+
+   Col_Data_01.push(Number(number_01));  // ensure it's a number
+   Lable_Data_01.push(text_01.trim());     // remove extra space with .trim()
+  });
+
+
+  var ctx = document.getElementById("AgePercentage");
+
+
+  let mychart_01 = new Chart(ctx, {
+
+        type: 'pie',
+        data: {
+            labels: Lable_Data_01,
+            datasets: [{
+               // label: "Income Vs Expenses",
+                data: Col_Data_01,
+                borderWidth: 1,
+                hoverBorderColor: "black",
+                hoverBorderWidth: 2,
+                hoverBackgroundColor: 'rgba(154, 245, 140)',
+                pointHoverRadius: 5,
+
+            }],
+              },
+
+        options: {
+                   plugins: {
+                              title: {
+                                   display: true,
+                                   color:'rgb(0, 0, 255)',
+                                   text: 'Age',
+                                   font: {
+                                              size: 30 // Legend font size
+                                         }
+                                     },
+
+                              legend: {
+                                    position: "right",
+                                    display: true,
+                                    labels: {
+                                              color: 'rgb(0, 0, 255)', // Legend font color
+                                              font: {
+                                                      size: 16 // Legend font size
+                                                    }
+                                             }
+                                       }
+                              },
+                   
+                    elements: {
+                              hitRadius: 3,
+                              }
+                   }
+                                 
+
+    });
+</script>
+
+
+<!-- **************************************************************************************************************** -->
+<!-- **************************************************************************************************************** -->
+
+{% endblock %}
+
+
+
+{% endblock %}

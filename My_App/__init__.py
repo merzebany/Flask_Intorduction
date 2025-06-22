@@ -41,6 +41,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 def Index():
     class_For_01="active" 
     class_For_02="text-white"
+    class_For_03="text-white"
     Title_V = "Home"
     
     
@@ -53,6 +54,7 @@ def Index():
     return render_template( template_name_or_list= "index.html" , 
                            class_For_01=class_For_01, 
                            class_For_02=class_For_02,
+                           class_For_03=class_For_03,
                            Title_V = Title_V,
                            skills = my_Skill,
                            Countries = Countries_Filter )
@@ -66,6 +68,7 @@ def Index():
 def ShowDataDecs():
     class_For_01="active" 
     class_For_02="text-white"
+    class_For_03="text-white"
     Title_V = "Home"
     
     
@@ -78,6 +81,7 @@ def ShowDataDecs():
     return render_template( template_name_or_list= "index.html" , 
                            class_For_01=class_For_01, 
                            class_For_02=class_For_02,
+                           class_For_03=class_For_03,
                            Title_V = Title_V,
                            skills = my_Skill, 
                            Countries = Countries_Filter )
@@ -92,6 +96,7 @@ def add_fun():
     
     class_For_01="text-white"
     class_For_02="active"
+    class_For_03="text-white"
     Title_V = "Add User"
 
     from DataBase import show_Countries
@@ -100,6 +105,7 @@ def add_fun():
     return render_template( template_name_or_list= "Add.html" , 
                            class_For_01=class_For_01, 
                            class_For_02=class_For_02 , 
+                           class_For_03=class_For_03,
                            Title_V= Title_V,
                            Countries=Countries_V1)
 
@@ -114,6 +120,7 @@ def EditUser_Fun():
 
     class_For_01="text-white"
     class_For_02="text-white"
+    class_For_03="text-white"
     Title_V = "Edit User"
 
     TT = request.args.get('EE')
@@ -127,6 +134,7 @@ def EditUser_Fun():
     return render_template( template_name_or_list="EditUser.html",
                             class_For_01=class_For_01,
                             class_For_02=class_For_02,
+                            class_For_03=class_For_03,
                             Title_V=Title_V,
                             skills=my_Skill,
                             Countries=Countries_V1)
@@ -145,6 +153,7 @@ def ViewPage_Fun():
 
     class_For_01="text-white"
     class_For_02="text-white"
+    class_For_03="text-white"
     Title_V = "View User Data"
 
     TT = request.args.get('TT')
@@ -171,6 +180,8 @@ def UpdataUserData_Fun():
      
       class_For_01="active" 
       class_For_02="text-white"
+      class_For_03="text-white"
+      
       Title_V = "Home"
 
       # Data_V = request.get_json('data')
@@ -262,6 +273,7 @@ def UpdataUserData_Fun():
       return render_template( template_name_or_list= "index.html" , 
                               class_For_01=class_For_01, 
                               class_For_02=class_For_02,
+                              class_For_03=class_For_03,
                               Title_V = Title_V,
                               skills = my_Skill,
                               Countries = Countries_Filter )
@@ -276,6 +288,8 @@ def ADDNewUserData_Fun():
      
       class_For_01="active" 
       class_For_02="text-white"
+      class_For_03="text-white"
+      
       Title_V = "Home"
       
       # Data_V = request.get_json('data')
@@ -368,6 +382,7 @@ def ADDNewUserData_Fun():
       return render_template( template_name_or_list= "index.html" , 
                               class_For_01=class_For_01, 
                               class_For_02=class_For_02,
+                              class_For_03=class_For_03,
                               Title_V = Title_V,
                               skills = my_Skill )
 
@@ -409,11 +424,14 @@ def delete_Fun():
   my_Skill = show_skills()
   class_For_01="active" 
   class_For_02="text-white"
+  class_For_03="text-white"
+  
   Title_V = "Home"
 
   return render_template( template_name_or_list = "index.html" , 
                            class_For_01=class_For_01, 
                            class_For_02=class_For_02,
+                           class_For_03=class_For_03,
                            Title_V = Title_V,
                            skills = my_Skill )
 
@@ -430,6 +448,8 @@ def Search_Fun():
 
   class_For_01="active" 
   class_For_02="text-white"
+  class_For_03="text-white"
+  
   Title_V = "Home"
 
 #   Data_V = request.get_json('data')
@@ -444,6 +464,7 @@ def Search_Fun():
   return render_template( template_name_or_list = "index.html" , 
                            class_For_01=class_For_01, 
                            class_For_02=class_For_02,
+                           class_For_03=class_For_03,
                            Title_V = Title_V,
                            skills = my_Skill )
 
@@ -482,3 +503,32 @@ def Filter_Data_ByCountry_Fun():
                            Countries = Countries_Filter )
 
 
+# ***********************************************************************************************************************
+# ******************************* DashBordPage *********************************************************************
+# ***********************************************************************************************************************
+
+
+@app.route("/DashBordPage")
+def InDashBordPagedex():
+  
+    class_For_03="active" 
+    class_For_01="text-white"
+    class_For_02="text-white"
+    
+    Title_V = "Dash Board"
+    
+    from DataBase import Get_CountryPercentage_data
+    CountryPercentage_data = Get_CountryPercentage_data()
+    
+    from DataBase import Get_AgePercentage_data
+    AgePercentage_data = Get_AgePercentage_data()
+    
+    
+    return render_template( template_name_or_list= "DashBoard.html" , 
+                           class_For_01=class_For_01, 
+                           class_For_02=class_For_02,
+                           class_For_03=class_For_03,
+                           CountryPercentage_data_Py=json.dumps(CountryPercentage_data),
+                           AgePercentage_data_Py=json.dumps(AgePercentage_data),
+                           Title_V = Title_V )
+    
