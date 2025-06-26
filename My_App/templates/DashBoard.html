@@ -1,9 +1,11 @@
 {% extends "base.html" %} {% block PageContent %}
 
 <div class="row row justify-content-center gx-3 mx-0 mt-2">
+
+
   <div
     class="card card-style m-2"
-    style="width: 30%; max-width: 800px; border: solid"
+    style="width: 30%; max-width: 800px; border: solid; background-color: rgb(252, 255, 225); "
   >
     <div class="card-body">
       <div class="chart-container" style="borderwidth: 3px">
@@ -15,7 +17,7 @@
 
    <div
     class="card card-style m-2"
-    style="width: 30%; max-width: 800px; border: solid"
+    style="width: 30%; max-width: 800px; border: solid ; background-color: rgb(181, 225, 226); "
   >
     <div class="card-body">
       <div class="chart-container" style="borderwidth: 3px">
@@ -23,6 +25,19 @@
       </div>
     </div>
   </div>
+
+
+  <div
+    class="card card-style m-2"
+    style="width: 30%; max-width: 800px; border: solid ; background-color: rgb(181, 226, 183); "
+  >
+    <div class="card-body">
+      <div class="chart-container" style="borderwidth: 3px">
+        <canvas id="GenderPercentage" height="312px"></canvas>
+      </div>
+    </div>
+  </div>
+
 
 
 </div>
@@ -36,7 +51,7 @@
 
   let CountryPercentage_data = JSON.parse({{ CountryPercentage_data_Py | tojson  }})
 
-  console.log(CountryPercentage_data)
+  //console.log(CountryPercentage_data)
   //console.log(typeof income_vs_expense_data)
 
   let parsedData = JSON.parse(CountryPercentage_data);
@@ -78,7 +93,7 @@
                    plugins: {
                               title: {
                                    display: true,
-                                   color:'rgb(0, 0, 255)',
+                                   color:'rgb(0, 0, 0)',
                                    text: 'Country',
                                    font: {
                                               size: 30 // Legend font size
@@ -89,7 +104,7 @@
                                     position: "right",
                                     display: true,
                                     labels: {
-                                              color: 'rgb(0, 0, 255)', // Legend font color
+                                              color: 'rgb(0, 0, 0)', // Legend font color
                                               font: {
                                                       size: 16 // Legend font size
                                                     }
@@ -110,6 +125,90 @@
 
 <!-- ************************************************************************************************ -->
 <!-- ************************************************************************************************ -->
+
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+
+<script>
+
+  let GenderPercentage_data = JSON.parse({{ GenderPercentage_data_Py | tojson  }})
+
+  console.log(GenderPercentage_data)
+  //console.log(typeof income_vs_expense_data)
+
+  let parsedData_02 = JSON.parse(GenderPercentage_data);
+
+  //console.log(parsedData)
+  let Col_Data_02 = [];
+  let Lable_Data_02 = [];
+
+   parsedData_02.forEach(pair => {
+   let number_02 = pair[0];   // first item is number
+   let text_02 = pair[1];     // second item is string
+
+   Col_Data_02.push(Number(number_02));  // ensure it's a number
+   Lable_Data_02.push(text_02.trim());     // remove extra space with .trim()
+  });
+
+
+  var ctx = document.getElementById("GenderPercentage");
+
+
+  let mychart_02 = new Chart(ctx, {
+
+        type: 'pie',
+        data: {
+            labels: Lable_Data_02,
+            datasets: [{
+               // label: "Income Vs Expenses",
+                data: Col_Data_02,
+                borderWidth: 1,
+                hoverBorderColor: "black",
+                hoverBorderWidth: 2,
+                hoverBackgroundColor: 'rgba(154, 245, 140)',
+                pointHoverRadius: 5,
+
+            }],
+              },
+
+        options: {
+                   plugins: {
+                              title: {
+                                   display: true,
+                                   color:'rgb(0, 0, 0)',
+                                   text: 'Gender',
+                                   font: {
+                                              size: 30 // Legend font size
+                                         }
+                                     },
+
+                              legend: {
+                                    position: "right",
+                                    display: true,
+                                    labels: {
+                                              color: 'rgb(0, 0, 0)', // Legend font color
+                                              font: {
+                                                      size: 16 // Legend font size
+                                                    }
+                                             }
+                                       }
+                              },
+                   
+                    elements: {
+                              hitRadius: 3,
+                              }
+                   }
+                                 
+
+    });
+</script>
+
+
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+
 
 
 <script>
@@ -158,7 +257,7 @@
                    plugins: {
                               title: {
                                    display: true,
-                                   color:'rgb(0, 0, 255)',
+                                   color:'rgb(0, 0, 0)',
                                    text: 'Age',
                                    font: {
                                               size: 30 // Legend font size
@@ -169,7 +268,7 @@
                                     position: "right",
                                     display: true,
                                     labels: {
-                                              color: 'rgb(0, 0, 255)', // Legend font color
+                                              color: 'rgb(0, 0, 0)', // Legend font color
                                               font: {
                                                       size: 16 // Legend font size
                                                     }

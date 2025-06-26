@@ -520,6 +520,10 @@ def InDashBordPagedex():
     from DataBase import Get_CountryPercentage_data
     CountryPercentage_data = Get_CountryPercentage_data()
     
+    from DataBase import Get_GenderPercentage_data
+    GenderPercentage_data = Get_GenderPercentage_data()
+    
+    
     from DataBase import Get_AgePercentage_data
     AgePercentage_data = Get_AgePercentage_data()
     
@@ -529,6 +533,7 @@ def InDashBordPagedex():
                            class_For_02=class_For_02,
                            class_For_03=class_For_03,
                            CountryPercentage_data_Py=json.dumps(CountryPercentage_data),
+                           GenderPercentage_data_Py=json.dumps(GenderPercentage_data),
                            AgePercentage_data_Py=json.dumps(AgePercentage_data),
                            Title_V = Title_V )
     
